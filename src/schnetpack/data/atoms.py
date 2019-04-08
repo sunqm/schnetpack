@@ -220,7 +220,7 @@ class AtomsData(Dataset):
                 except AttributeError as e:
                     prop = np.array([prop], dtype=np.float32)
 
-            properties[pname] = torch.FloatTensor(prop)
+            properties[pname] = torch.FloatTensor(prop.astype(np.float32))
 
         if self.load_charge:
             if Structure.charge in row.data.keys():
