@@ -26,8 +26,8 @@ opt = Adam(model.parameters(), lr=1e-4)
 loss = lambda b, p: F.mse_loss(p["y"], b[QM9.U0])
 def mae_loss_fn(b, p):
     return F.l1_loss(p["y"], b[QM9.U0])
-loss.mae_loss_fn = mae_loss_fn
 trainer = spk.train.Trainer("output/", model, loss, opt, loader, val_loader)
+trainer.mae_loss_fn = mae_loss_fn
 
 # start training
 trainer.train(torch.device("cpu"))
