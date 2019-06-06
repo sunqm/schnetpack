@@ -37,3 +37,4 @@ def build_mse_loss(properties, loss_tradeoff=None):
         return loss
 
     return loss_fn
+mse_loss = build_mse_loss

@@ -55,6 +55,7 @@ class Trainer:
 
         self.loss_fn = loss_fn
         self.optimizer = optimizer
+        self.mae_loss_fn = None
 
         if os.path.exists(self.checkpoint_path):
             self.restore_checkpoint()
@@ -191,6 +192,7 @@ class Trainer:
 
                     val_loss = 0.0
                     n_val = 0
+                    mae_loss = 0
                     for val_batch in self.validation_loader:
                         # append batch_size
                         vsize = list(val_batch.values())[0].size(0)
@@ -211,12 +213,21 @@ class Trainer:
                         else:
                             val_loss += val_batch_loss
 
+                        if self.mae_batch_loss is not None
+                            mae_batch_loss = self.mae_loss_fn(val_batch,
+                                                              val_result).data.cpu().numpy()
+                            if self.loss_is_normalized:
+                                mae_loss += mae_batch_loss * vsize
+                            else:
+                                mae_loss += mae_batch_loss
+
                         for h in self.hooks:
                             h.on_validation_batch_end(self, val_batch, val_result)
 
                     # weighted average over batches
                     if self.loss_is_normalized:
                         val_loss /= n_val
+                        mae_loss /= n_val
 
                     if self.best_loss > val_loss:
                         self.best_loss = val_loss
@@ -224,6 +235,8 @@ class Trainer:
 
                     for h in self.hooks:
                         h.on_validation_end(self, val_loss)
+
+                    print('MSE/MAE/Best-MSE Loss=', val_loss, mae_loss, self.best_loss)
 
                 for h in self.hooks:
                     h.on_epoch_end(self)

@@ -2,13 +2,6 @@
 This module contains all functionalities required to load atomistic data,
 generate batches and compute statistics. It makes use of the ASE database
 for atoms [#ase2]_.
-
-References
-----------
-.. [#ase2] Larsen, Mortensen, Blomqvist, Castelli, Christensen, Dułak, Friis,
-   Groves, Hammer, Hargus:
-   The atomic simulation environment -- a Python library for working with atoms.
-   Journal of Physics: Condensed Matter, 9, 27. 2017.
 """
 
 import logging

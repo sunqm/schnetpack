@@ -203,6 +203,7 @@ class SchNet(nn.Module):
         """
         # get tensors from input dictionary
         atomic_numbers = inputs[Structure.Z]
+        #print(atomic_numbers)
         positions = inputs[Structure.R]
         cell = inputs[Structure.cell]
         cell_offset = inputs[Structure.cell_offset]
