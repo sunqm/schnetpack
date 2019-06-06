@@ -213,7 +213,7 @@ class Trainer:
                         else:
                             val_loss += val_batch_loss
 
-                        if self.mae_batch_loss is not None
+                        if self.mae_batch_loss is not None:
                             mae_batch_loss = self.mae_loss_fn(val_batch,
                                                               val_result).data.cpu().numpy()
                             if self.loss_is_normalized:
