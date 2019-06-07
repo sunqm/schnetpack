@@ -57,13 +57,9 @@ class Trainer:
         self.optimizer = optimizer
         self.mae_loss_fn = None
 
-        if os.path.exists(self.checkpoint_path):
-            self.restore_checkpoint()
-        else:
-            os.makedirs(self.checkpoint_path)
-            self.epoch = 0
-            self.step = 0
-            self.best_loss = float("inf")
+        self.epoch = 0
+        self.step = 0
+        self.best_loss = float("inf")
 
     def _check_is_parallel(self):
         return True if isinstance(self._model, torch.nn.DataParallel) else False
@@ -139,6 +135,12 @@ class Trainer:
 
         """
         self._model.to(device)
+        # restore chk after setting device
+        if os.path.exists(self.checkpoint_path):
+            self.restore_checkpoint()
+        else:
+            os.makedirs(self.checkpoint_path)
+
         self._stop = False
 
         for h in self.hooks:
