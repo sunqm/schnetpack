@@ -136,13 +136,16 @@ class Trainer:
         """
         self._model.to(device)
         # restore chk after setting device
-        if os.path.exists(self.checkpoint_path):
-            self.restore_checkpoint()
+        if os.path.isdir(self.checkpoint_path):
+            try:
+                self.restore_checkpoint()
 
-            for state in self.optimizer.state.values():
-                for k, v in state.items():
-                    if torch.is_tensor(v) and v.device != device:
-                        state[k] = v.to(device)
+                for state in self.optimizer.state.values():
+                    for k, v in state.items():
+                        if torch.is_tensor(v) and v.device != device:
+                            state[k] = v.to(device)
+            except TypeError:
+                pass
         else:
             os.makedirs(self.checkpoint_path)
 
